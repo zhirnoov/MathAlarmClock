@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/allAlarmsFragment">
+
+    <fragment
+        android:id="@+id/allAlarmsFragment"
+        android:name="com.github.phantom_nosferatu.fragments.AllAlarmsFragment"
+        android:label="AllAlarmsFragment" >
+        <action
+            android:id="@+id/action_allAlarmsFragment_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAlarmFragment"
+        android:name="com.github.phantom_nosferatu.fragments.AddAlarmFragment"
+        android:label="AddAlarmFragment" />
+</navigation>
