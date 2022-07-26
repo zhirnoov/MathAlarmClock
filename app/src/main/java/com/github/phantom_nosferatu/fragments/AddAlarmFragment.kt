@@ -12,22 +12,18 @@ import com.google.android.material.timepicker.TimeFormat
 
 class AddAlarmFragment : Fragment() {
 
-    private lateinit var timePicker : MaterialTimePicker
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_alarm, container, false)
-        timePicker = view.findViewById(R.id.time_picker)
-        timePicker = MaterialTimePicker.Builder()
+        val timePicker = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(12)
             .setMinute(0)
             .setTitleText("Выберите текст")
             .build()
-
         return view
     }
 }
