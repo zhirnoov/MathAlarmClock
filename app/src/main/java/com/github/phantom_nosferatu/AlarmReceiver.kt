@@ -8,7 +8,7 @@ import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
-        Log.d("MainActivity", "Alarm Receiver ${Date()}")
+        Log.d("AlarmTesting", "Alarm Receiver ${Date()}")
     }
 
 }
