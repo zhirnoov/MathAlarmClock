@@ -1,5 +1,8 @@
 package com.github.phantom_nosferatu.data.model
 
+import androidx.room.Entity
+
+@Entity(tableName = "alarms")
 data class Alarm(
     val id: Int,
     val title: String,
