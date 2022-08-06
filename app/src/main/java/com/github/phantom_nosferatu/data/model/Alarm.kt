@@ -1,4 +1,4 @@
-package com.github.phantom_nosferatu.model
+package com.github.phantom_nosferatu.data.model
 
 data class Alarm(
     val id: Int,
