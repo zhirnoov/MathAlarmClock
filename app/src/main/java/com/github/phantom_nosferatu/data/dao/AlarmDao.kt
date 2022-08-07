@@ -9,7 +9,7 @@ import com.github.phantom_nosferatu.data.model.Alarm
 interface AlarmDao {
 
     @Insert
-    suspend fun saveAlarm(alarm: List<Alarm>)
+    suspend fun saveAlarm(alarm: Alarm)
 
     @Query("SELECT * FROM alarms")
     suspend fun getAlarms(): List<Alarm>

@@ -5,7 +5,7 @@ import com.github.phantom_nosferatu.data.model.Alarm
 
 class AlarmRepository(private val alarmDao: AlarmDao) {
 
-    suspend fun saveAlarm(alarm: List<Alarm>) {
+    suspend fun saveAlarm(alarm: Alarm) {
         alarmDao.saveAlarm(alarm)
     }
 

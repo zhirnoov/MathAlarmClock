@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 
 class AddAlarmViewModel(private val alarmRepository: AlarmRepository) : ViewModel() {
 
-    fun saveAlarm(alarm : List<Alarm>) {
-     viewModelScope.launch {
-         alarmRepository.saveAlarm(alarm)
-     }
+    fun saveAlarm(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmRepository.saveAlarm(alarm)
+        }
     }
 }
