@@ -10,16 +10,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.github.phantom_nosferatu.AlarmHelper
 import com.github.phantom_nosferatu.App
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
-import com.github.phantom_nosferatu.data.repo.AlarmRepository
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import kotlin.properties.Delegates.notNull
 
 class AddAlarmFragment : Fragment() {
 
@@ -80,6 +81,7 @@ class AddAlarmFragment : Fragment() {
                     )
                 )
                 Toast.makeText(context, "Alarm $hour:$minute create", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
             }
         }
         return view

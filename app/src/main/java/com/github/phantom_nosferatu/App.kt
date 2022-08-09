@@ -10,4 +10,8 @@ class App : Application() {
         AlarmRepository(AppDatabase.getInstance(this).alarmDao())
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        val database = AppDatabase.getInstance(this)
+    }
 }

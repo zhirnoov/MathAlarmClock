@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/addAlarmFragment"
         android:name="com.github.phantom_nosferatu.fragments.AddAlarmFragment"
-        android:label="AddAlarmFragment" />
+        android:label="AddAlarmFragment" >
+        <action
+            android:id="@+id/action_addAlarmFragment_to_allAlarmsFragment"
+            app:destination="@id/allAlarmsFragment" />
+    </fragment>
 </navigation>
