@@ -11,9 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.phantom_nosferatu.AlarmHelper
+import com.github.phantom_nosferatu.App
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
+import com.github.phantom_nosferatu.data.repo.AlarmRepository
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
+import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlin.properties.Delegates.notNull
@@ -23,9 +26,11 @@ class AddAlarmFragment : Fragment() {
     private lateinit var timePickerButton: Button
     private lateinit var saveButton: Button
     private val alarmHelper = AlarmHelper()
-    private val viewmodel: AddAlarmViewModel by viewModels()
-    private var hour : Int = 5
-    private var minute : Int = 0
+    private val viewmodel: AddAlarmViewModel by viewModels {
+        AddAlarmViewModelFactory(App().alarmRepository)
+    }
+    private var hour: Int = 5
+    private var minute: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
