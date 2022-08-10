@@ -16,7 +16,7 @@ class AllAlarmsFragment : Fragment() {
     private lateinit var addButton : FloatingActionButton
     private lateinit var recyclerView : RecyclerView
 
-    private var adapter : AlarmAdapter? = AlarmAdapter()
+    private var adapter : AlarmAdapter? = AlarmAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +28,6 @@ class AllAlarmsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rv_alarms)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
-
 
         addButton.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.action_allAlarmsFragment_to_addAlarmFragment)

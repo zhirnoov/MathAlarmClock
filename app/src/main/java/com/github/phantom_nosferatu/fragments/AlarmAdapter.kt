@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
 
-class AlarmAdapter(val alarms: List<Alarm>) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
+class AlarmAdapter(private val alarms: List<Alarm>) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
 
 
     inner class AlarmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,6 +27,8 @@ class AlarmAdapter(val alarms: List<Alarm>) : RecyclerView.Adapter<AlarmAdapter.
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarm = alarms[position]
+        holder.title.text = alarm.title
+        holder.time.text = "${alarm.hour.toString().padStart(2,'0')}:${alarm.minute.toString().padStart(2,'0')}"
     }
 
     override fun getItemCount() = alarms.size
