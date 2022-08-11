@@ -2,6 +2,7 @@ package com.github.phantom_nosferatu.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import java.util.*
 
 class AddAlarmFragment : Fragment() {
 
@@ -85,6 +87,7 @@ class AddAlarmFragment : Fragment() {
                     isActive = true
                 )
             )
+            Log.d("AlarmTesting", "Alarm init ${Date()}")
             Toast.makeText(context, "Alarm $hour:$minute create", Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }

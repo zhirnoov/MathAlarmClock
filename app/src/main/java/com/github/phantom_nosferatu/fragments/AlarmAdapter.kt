@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class AlarmAdapter(private val alarms: List<Alarm>) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
 
@@ -16,7 +17,7 @@ class AlarmAdapter(private val alarms: List<Alarm>) : RecyclerView.Adapter<Alarm
 
         val title : TextView = itemView.findViewById(R.id.tv_title)
         val time : TextView = itemView.findViewById(R.id.tv_time)
-        val switch : Switch = itemView.findViewById(R.id.btn_switch)
+        val switch : SwitchMaterial = itemView.findViewById(R.id.btn_switch)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
