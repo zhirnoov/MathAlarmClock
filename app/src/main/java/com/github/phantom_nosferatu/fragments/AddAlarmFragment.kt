@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -30,6 +31,7 @@ class AddAlarmFragment : Fragment() {
     private lateinit var hourPicker: NumberPicker
     private lateinit var minutePicker: NumberPicker
     private lateinit var saveButton: Button
+    private lateinit var titleField : EditText
     private val alarmHelper = AlarmHelper()
     private val viewModel: AddAlarmViewModel by viewModels {
         AddAlarmViewModelFactory(App().alarmRepository)
@@ -47,6 +49,7 @@ class AddAlarmFragment : Fragment() {
         hourPicker = view.findViewById(R.id.picker_hour)
         minutePicker = view.findViewById(R.id.picker_minute)
         saveButton = view.findViewById(R.id.btn_save)
+        titleField = view.findViewById(R.id.et_title)
 
         hourPicker.minValue = 0
         hourPicker.maxValue = 23
@@ -81,7 +84,7 @@ class AddAlarmFragment : Fragment() {
             viewModel.saveAlarm(
                 Alarm(
                     id = 0,
-                    title = "тест",
+                    title = titleField.text.toString(),
                     hour = hour,
                     minute = minute,
                     isActive = true
