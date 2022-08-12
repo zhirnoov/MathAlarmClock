@@ -4,6 +4,8 @@
     package="com.github.phantom_nosferatu">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
