@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -15,18 +16,20 @@ class NotificationHelper {
 
     fun createNofication(context: Context) {
         val actionIntent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
         val actionPendingIntent: PendingIntent =
-            PendingIntent.getActivity(context, 0, actionIntent, 0)
+            PendingIntent.getActivity(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_add_24)
+            .setSmallIcon(R.drawable.ic_alarm)
             .setContentTitle("Мой будильник")
             .setContentText("Будильник сработал")
             .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setFullScreenIntent(actionPendingIntent, true)
             .addAction(R.drawable.ic_close_24, "Отключить", actionPendingIntent)
         with(NotificationManagerCompat.from(context)) {
             notify(notificationId, builder.build())
@@ -37,7 +40,7 @@ class NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "name"
             val descriptionText = "description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
