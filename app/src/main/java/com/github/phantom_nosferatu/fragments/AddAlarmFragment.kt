@@ -9,11 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.PermissionRequest
 import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +24,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.github.phantom_nosferatu.AlarmHelper
 import com.github.phantom_nosferatu.App
+import com.github.phantom_nosferatu.MainActivity
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
@@ -88,7 +91,9 @@ class AddAlarmFragment : Fragment() {
         chooseSoundButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission( view.context, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
-
+             TODO()
+            } else {
+                TODO()
             }
         }
 
