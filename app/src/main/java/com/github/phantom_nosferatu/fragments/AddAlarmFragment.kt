@@ -1,5 +1,8 @@
 package com.github.phantom_nosferatu.fragments
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +14,7 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -31,7 +35,8 @@ class AddAlarmFragment : Fragment() {
     private lateinit var hourPicker: NumberPicker
     private lateinit var minutePicker: NumberPicker
     private lateinit var saveButton: Button
-    private lateinit var titleField : EditText
+    private lateinit var titleField: EditText
+    private lateinit var chooseSoundButton: Button
     private val alarmHelper = AlarmHelper()
     private val viewModel: AddAlarmViewModel by viewModels {
         AddAlarmViewModelFactory(App().alarmRepository)
@@ -50,6 +55,7 @@ class AddAlarmFragment : Fragment() {
         minutePicker = view.findViewById(R.id.picker_minute)
         saveButton = view.findViewById(R.id.btn_save)
         titleField = view.findViewById(R.id.et_title)
+        chooseSoundButton = view.findViewById(R.id.btn_chooseSound)
 
         hourPicker.minValue = 0
         hourPicker.maxValue = 23
@@ -77,6 +83,13 @@ class AddAlarmFragment : Fragment() {
             hour = savedInstanceState.getInt("INT_HOUR", hour)
             minute = savedInstanceState.getInt("INT_MINUTE", minute)
 
+        }
+
+        chooseSoundButton.setOnClickListener {
+            if (ContextCompat.checkSelfPermission( view.context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            }
         }
 
         saveButton.setOnClickListener {
