@@ -1,36 +1,26 @@
 package com.github.phantom_nosferatu.fragments
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.PermissionRequest
 import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.github.phantom_nosferatu.AlarmHelper
 import com.github.phantom_nosferatu.App
-import com.github.phantom_nosferatu.MainActivity
 import com.github.phantom_nosferatu.R
 import com.github.phantom_nosferatu.data.model.Alarm
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 
 class AddAlarmFragment : Fragment() {
@@ -60,19 +50,7 @@ class AddAlarmFragment : Fragment() {
         titleField = view.findViewById(R.id.et_title)
         chooseSoundButton = view.findViewById(R.id.btn_chooseSound)
 
-        hourPicker.minValue = 0
-        hourPicker.maxValue = 23
-        hourPicker.setFormatter {
-            String.format("%02d", it)
-        }
-        hourPicker.wrapSelectorWheel = true
-
-        minutePicker.minValue = 0
-        minutePicker.maxValue = 59
-        minutePicker.setFormatter {
-            String.format("%02d", it)
-        }
-
+        setupTimePicker(hourPicker,minutePicker)
 
         hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
             hour = hourPicker.value
@@ -86,15 +64,6 @@ class AddAlarmFragment : Fragment() {
             hour = savedInstanceState.getInt("INT_HOUR", hour)
             minute = savedInstanceState.getInt("INT_MINUTE", minute)
 
-        }
-
-        chooseSoundButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission( view.context, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-             TODO()
-            } else {
-                TODO()
-            }
         }
 
         saveButton.setOnClickListener {
@@ -120,4 +89,29 @@ class AddAlarmFragment : Fragment() {
         outState.putInt("INT_HOUR", hour)
         outState.putInt("INT_MINUTE", minute)
     }
+}
+
+private fun getStoragePermission(granted: Boolean) {
+    if (granted) {
+
+    } else {
+
+    }
+}
+
+private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker) {
+
+    hourPicker.minValue = 0
+    hourPicker.maxValue = 23
+    hourPicker.setFormatter {
+        String.format("%02d", it)
+    }
+    hourPicker.wrapSelectorWheel = true
+
+    minutePicker.minValue = 0
+    minutePicker.maxValue = 59
+    minutePicker.setFormatter {
+        String.format("%02d", it)
+    }
+
 }
