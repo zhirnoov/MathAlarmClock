@@ -1,9 +1,14 @@
 package com.github.phantom_nosferatu.fragments
 
 import android.Manifest
+import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +17,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.activity.result.registerForActivityResult
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +32,7 @@ import com.github.phantom_nosferatu.data.model.Alarm
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
 import java.util.*
+import kotlin.math.log
 
 class AddAlarmFragment : Fragment() {
 
@@ -41,8 +50,11 @@ class AddAlarmFragment : Fragment() {
 
     private val readStoragePermissionLauncher = registerForActivityResult(
         RequestPermission(),
-        ::getStoragePermission
-    )
+        ::getStoragePermission)
+
+    val getSound = registerForActivityResult(ActivityResultContracts.GetContent()){
+        Log.d("AlarmTesting", "Uri is $it")
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -74,7 +86,8 @@ class AddAlarmFragment : Fragment() {
         }
 
         chooseSoundButton.setOnClickListener {
-            readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+          readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            getSound.launch("image/png")
         }
 
         saveButton.setOnClickListener {
@@ -118,11 +131,10 @@ private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker
     }
 }
 
-private fun getStoragePermission(granted: Boolean) {
+fun getStoragePermission(granted: Boolean) {
     if (granted) {
         Log.d("AlarmTesting", "Permission is granted!")
     } else {
         Log.d("AlarmTesting", "Permission is denied")
     }
-
 }
