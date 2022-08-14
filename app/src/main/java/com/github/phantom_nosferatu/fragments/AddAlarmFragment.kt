@@ -1,5 +1,7 @@
 package com.github.phantom_nosferatu.fragments
 
+import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +39,11 @@ class AddAlarmFragment : Fragment() {
     private var hour: Int = 0
     private var minute: Int = 0
 
+    private val readStoragePermissionLauncher = registerForActivityResult(
+        RequestPermission(),
+        ::getStoragePermission
+    )
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +57,13 @@ class AddAlarmFragment : Fragment() {
         titleField = view.findViewById(R.id.et_title)
         chooseSoundButton = view.findViewById(R.id.btn_chooseSound)
 
-        setupTimePicker(hourPicker,minutePicker)
+        if (savedInstanceState != null) {
+            hour = savedInstanceState.getInt("INT_HOUR", hour)
+            minute = savedInstanceState.getInt("INT_MINUTE", minute)
+
+        }
+
+        setupTimePicker(hourPicker, minutePicker)
 
         hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
             hour = hourPicker.value
@@ -60,10 +73,8 @@ class AddAlarmFragment : Fragment() {
             minute = minutePicker.value
         }
 
-        if (savedInstanceState != null) {
-            hour = savedInstanceState.getInt("INT_HOUR", hour)
-            minute = savedInstanceState.getInt("INT_MINUTE", minute)
-
+        chooseSoundButton.setOnClickListener {
+            readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
         saveButton.setOnClickListener {
@@ -91,14 +102,6 @@ class AddAlarmFragment : Fragment() {
     }
 }
 
-private fun getStoragePermission(granted: Boolean) {
-    if (granted) {
-
-    } else {
-
-    }
-}
-
 private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker) {
 
     hourPicker.minValue = 0
@@ -112,6 +115,14 @@ private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker
     minutePicker.maxValue = 59
     minutePicker.setFormatter {
         String.format("%02d", it)
+    }
+}
+
+private fun getStoragePermission(granted: Boolean) {
+    if (granted) {
+        Log.d("AlarmTesting", "Permission is granted!")
+    } else {
+        Log.d("AlarmTesting", "Permission is denied")
     }
 
 }
