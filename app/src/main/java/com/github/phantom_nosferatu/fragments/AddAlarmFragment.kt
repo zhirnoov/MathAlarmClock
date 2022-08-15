@@ -1,14 +1,8 @@
 package com.github.phantom_nosferatu.fragments
 
 import android.Manifest
-import android.app.Activity
-import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +11,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
-import androidx.activity.result.registerForActivityResult
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,7 +24,6 @@ import com.github.phantom_nosferatu.data.model.Alarm
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModel
 import com.github.phantom_nosferatu.view_models.AddAlarmViewModelFactory
 import java.util.*
-import kotlin.math.log
 
 class AddAlarmFragment : Fragment() {
 
@@ -72,18 +63,17 @@ class AddAlarmFragment : Fragment() {
         if (savedInstanceState != null) {
             hour = savedInstanceState.getInt("INT_HOUR", hour)
             minute = savedInstanceState.getInt("INT_MINUTE", minute)
-
         }
 
-        setupTimePicker(hourPicker, minutePicker)
+        setupTimePicker(hourPicker, minutePicker, hour, minute)
 
-        hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
+        /* hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
             hour = hourPicker.value
         }
 
         minutePicker.setOnValueChangedListener { numberPicker, i, i2 ->
             minute = minutePicker.value
-        }
+        } */
 
         chooseSoundButton.setOnClickListener {
           readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -110,15 +100,21 @@ class AddAlarmFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("INT_HOUR", hour)
-        outState.putInt("INT_MINUTE", minute)
+        outState.putInt("INT_HOUR", hourPicker.value)
+        outState.putInt("INT_MINUTE", minutePicker.value)
     }
 }
 
-private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker) {
+private fun setupTimePicker(
+    hourPicker: NumberPicker,
+    minutePicker: NumberPicker,
+    hour: Int,
+    minute: Int
+) {
 
     hourPicker.minValue = 0
     hourPicker.maxValue = 23
+    hourPicker.value = hour
     hourPicker.setFormatter {
         String.format("%02d", it)
     }
@@ -126,6 +122,7 @@ private fun setupTimePicker(hourPicker: NumberPicker, minutePicker: NumberPicker
 
     minutePicker.minValue = 0
     minutePicker.maxValue = 59
+    minutePicker.value = minute
     minutePicker.setFormatter {
         String.format("%02d", it)
     }
