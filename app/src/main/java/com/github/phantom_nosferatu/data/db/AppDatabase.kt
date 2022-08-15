@@ -1,17 +1,16 @@
 package com.github.phantom_nosferatu.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.github.phantom_nosferatu.App
+import androidx.room.*
 import com.github.phantom_nosferatu.data.dao.AlarmDao
 import com.github.phantom_nosferatu.data.model.Alarm
+import com.github.phantom_nosferatu.data.model.UriConverter
 
 @Database(
     version = 1,
     entities = [Alarm::class]
 )
+@TypeConverters(UriConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun alarmDao(): AlarmDao

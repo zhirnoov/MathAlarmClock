@@ -1,6 +1,7 @@
 package com.github.phantom_nosferatu.fragments
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -38,13 +39,16 @@ class AddAlarmFragment : Fragment() {
     }
     private var hour: Int = 0
     private var minute: Int = 0
+    private var uri: Uri? = null
 
     private val readStoragePermissionLauncher = registerForActivityResult(
         RequestPermission(),
-        ::getStoragePermission)
+        ::getStoragePermission
+    )
 
-    val getSound = registerForActivityResult(ActivityResultContracts.GetContent()){
-        Log.d("AlarmTesting", "Uri is $it")
+    private val getSound = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        uri = it
+        Log.d("AlarmTesting", "Sound is $uri")
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -67,17 +71,17 @@ class AddAlarmFragment : Fragment() {
 
         setupTimePicker(hourPicker, minutePicker, hour, minute)
 
-        /* hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
+        hourPicker.setOnValueChangedListener { numberPicker, i, i2 ->
             hour = hourPicker.value
         }
 
         minutePicker.setOnValueChangedListener { numberPicker, i, i2 ->
             minute = minutePicker.value
-        } */
+        }
 
         chooseSoundButton.setOnClickListener {
-          readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            getSound.launch("image/png")
+            readStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            getSound.launch("audio/mpeg")
         }
 
         saveButton.setOnClickListener {
@@ -88,11 +92,13 @@ class AddAlarmFragment : Fragment() {
                     title = titleField.text.toString(),
                     hour = hour,
                     minute = minute,
+                    soundUri = uri,
                     isActive = true
                 )
             )
             Log.d("AlarmTesting", "Alarm init ${Date()}")
-            Toast.makeText(context, "Alarm $hour:$minute create", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Alarm $hour:$minute create, uri is $uri", Toast.LENGTH_SHORT)
+                .show()
             findNavController().popBackStack()
         }
         return view
