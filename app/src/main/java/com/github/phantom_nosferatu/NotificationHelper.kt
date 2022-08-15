@@ -9,6 +9,7 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
 
 class NotificationHelper {
     private val CHANNEL_ID = "101"
@@ -19,8 +20,17 @@ class NotificationHelper {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
-        val actionPendingIntent: PendingIntent =
+        /* val actionPendingIntent: PendingIntent =
             PendingIntent.getActivity(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        actionPendingIntent  /
+         */
+
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.addAlarmFragment)
+            .setComponentName(MainActivity::class.java)
+            .createPendingIntent()
 
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -29,8 +39,8 @@ class NotificationHelper {
             .setContentText("Будильник сработал")
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
-            .setFullScreenIntent(actionPendingIntent, true)
-            .addAction(R.drawable.ic_close_24, "Отключить", actionPendingIntent)
+            .setFullScreenIntent(pendingIntent, true)
+            .addAction(R.drawable.ic_close_24, "Отключить", pendingIntent)
         with(NotificationManagerCompat.from(context)) {
             notify(notificationId, builder.build())
         }
