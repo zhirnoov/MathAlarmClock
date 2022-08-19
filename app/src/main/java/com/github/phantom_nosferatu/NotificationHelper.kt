@@ -12,7 +12,7 @@ class NotificationHelper {
     private val CHANNEL_ID = "101"
     private val notificationId = 101
 
-    fun createNofication(context: Context, title:String) {
+    fun createNofication(context: Context, title: String) {
 
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
@@ -27,8 +27,10 @@ class NotificationHelper {
             .setContentText("Будильник сработал")
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setContentIntent(pendingIntent)
             .setFullScreenIntent(pendingIntent, true)
             .addAction(R.drawable.ic_close_24, "Отключить", pendingIntent)
+            .setAutoCancel(true)
         with(NotificationManagerCompat.from(context)) {
             notify(notificationId, builder.build())
         }
