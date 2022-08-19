@@ -9,18 +9,27 @@ import android.util.Log
 
 class PlayerService : Service() {
 
+    var mediaPlayer : MediaPlayer? = null
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
         val uri = Uri.parse(intent?.extras?.getString("URI_EXTRA"))
         Log.d("AlarmTesting", "Uri is $uri")
-        val mediaPlayer = MediaPlayer.create(this, uri)
-        mediaPlayer.isLooping = true
-        mediaPlayer.start()
+        mediaPlayer = MediaPlayer.create(this, uri).apply {
+            isLooping = true
+            start()
+        }
         return START_STICKY
     }
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.stop()
+        Log.d("AlarmTesting", "Service is destroy")
     }
 }

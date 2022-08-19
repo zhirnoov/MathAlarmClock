@@ -28,7 +28,7 @@ class NotificationHelper {
 
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
-            .setDestination(R.id.addAlarmFragment)
+            .setDestination(R.id.alarmSolutionFragment)
             .setComponentName(MainActivity::class.java)
             .createPendingIntent()
 
