@@ -19,8 +19,6 @@ class AlarmSolutionFragment : Fragment() {
     private lateinit var stopAudio : Button
     private lateinit var questionText : TextView
     private lateinit var answerEditText : EditText
-    val randomValueOne = (10..90).random()
-    val randomValueTwo = (10..90).random()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +29,8 @@ class AlarmSolutionFragment : Fragment() {
         stopAudio = view.findViewById(R.id.btn_stopAudio)
         questionText = view.findViewById(R.id.text_question)
         answerEditText = view.findViewById(R.id.et_answer)
+        val randomValueOne = (10..90).random()
+        val randomValueTwo = (10..90).random()
 
         questionText.text = "$randomValueOne + $randomValueTwo"
 

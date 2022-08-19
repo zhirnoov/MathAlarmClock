@@ -21,16 +21,18 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private val scope = CoroutineScope(SupervisorJob())
     private lateinit var uri: Uri
+    private lateinit var title : String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent?) {
         Log.d("AlarmTesting", "Alarm Receiver ${Date()}")
         val notificationHelper = NotificationHelper()
         notificationHelper.createNotificationChannel(context)
-        notificationHelper.createNofication(context)
 
         scope.launch(Dispatchers.IO) {
             uri = App().alarmRepository.getAlarms().map { it.soundUri }.first()!!
+            title = App().alarmRepository.getAlarms().map { it.title }.first()
+            notificationHelper.createNofication(context, title)
             Log.d("AlarmTesting", "Uri in receiver is $uri")
             val intentService = Intent(context, PlayerService::class.java).putExtra("URI_EXTRA", uri.toString())
             context.startService(intentService)
