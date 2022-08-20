@@ -13,12 +13,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.phantom_nosferatu.PlayerService
 import com.github.phantom_nosferatu.R
+import kotlin.properties.Delegates
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 class AlarmSolutionFragment : Fragment() {
 
     private lateinit var stopAudio : Button
     private lateinit var questionText : TextView
     private lateinit var answerEditText : EditText
+    private var randomValueOne by Delegates.notNull<Int>()
+    private var randomValueTwo by Delegates.notNull<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +34,15 @@ class AlarmSolutionFragment : Fragment() {
         stopAudio = view.findViewById(R.id.btn_stopAudio)
         questionText = view.findViewById(R.id.text_question)
         answerEditText = view.findViewById(R.id.et_answer)
-        val randomValueOne = (10..90).random()
-        val randomValueTwo = (10..90).random()
+        if (savedInstanceState != null) {
+            randomValueOne = savedInstanceState.getInt("RANDOM_VALUE_ONE")
+            randomValueTwo = savedInstanceState.getInt("RANDOM_VALUE_TWO")
+        } else {
+            val random = Random(System.currentTimeMillis())
+            randomValueOne = random.nextInt(10,90)
+            randomValueTwo = random.nextInt(10, 90)
+
+        }
 
         questionText.text = "$randomValueOne + $randomValueTwo"
 
@@ -45,5 +57,11 @@ class AlarmSolutionFragment : Fragment() {
 
         return view
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("RANDOM_VALUE_ONE", randomValueOne )
+        outState.putInt("RANDOM_VALUE_TWO", randomValueTwo)
     }
 }
