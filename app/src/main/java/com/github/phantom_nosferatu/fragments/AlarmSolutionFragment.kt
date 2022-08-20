@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.phantom_nosferatu.PlayerService
 import com.github.phantom_nosferatu.R
@@ -19,9 +20,9 @@ import kotlin.random.nextInt
 
 class AlarmSolutionFragment : Fragment() {
 
-    private lateinit var stopAudio : Button
-    private lateinit var questionText : TextView
-    private lateinit var answerEditText : EditText
+    private lateinit var stopAudio: Button
+    private lateinit var questionText: TextView
+    private lateinit var answerEditText: EditText
     private var randomValueOne by Delegates.notNull<Int>()
     private var randomValueTwo by Delegates.notNull<Int>()
 
@@ -39,7 +40,7 @@ class AlarmSolutionFragment : Fragment() {
             randomValueTwo = savedInstanceState.getInt("RANDOM_VALUE_TWO")
         } else {
             val random = Random(System.currentTimeMillis())
-            randomValueOne = random.nextInt(10,90)
+            randomValueOne = random.nextInt(10, 90)
             randomValueTwo = random.nextInt(10, 90)
 
         }
@@ -47,10 +48,13 @@ class AlarmSolutionFragment : Fragment() {
         questionText.text = "$randomValueOne + $randomValueTwo"
 
         stopAudio.setOnClickListener {
-            if (Integer.parseInt(answerEditText.text.toString()) == randomValueOne+randomValueTwo) {
+            if (Integer.parseInt(answerEditText.text.toString()) == randomValueOne + randomValueTwo) {
                 context?.stopService(Intent(context, PlayerService::class.java))
+                Toast.makeText(context, "Будильник отключен", Toast.LENGTH_SHORT)
+                activity?.finish()
                 Log.d("AlarmTesting", "Audio is stop")
             } else {
+                Toast.makeText(context, "Повторите снова!", Toast.LENGTH_SHORT)
                 Log.d("AlarmTesting", "Try again!")
             }
         }
@@ -61,7 +65,7 @@ class AlarmSolutionFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("RANDOM_VALUE_ONE", randomValueOne )
+        outState.putInt("RANDOM_VALUE_ONE", randomValueOne)
         outState.putInt("RANDOM_VALUE_TWO", randomValueTwo)
     }
 }
